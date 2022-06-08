@@ -1,17 +1,22 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -67,12 +72,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        private final int REQUEST_CODE=20;
+
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
         ImageView ivTweet;
         TextView tvName;
         TextView tvTime;
+        Button btnReply;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +90,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivTweet=itemView.findViewById(R.id.ivTweet);
             tvName=itemView.findViewById(R.id.tvName);
             tvTime=itemView.findViewById(R.id.tvTime);
+            btnReply=itemView.findViewById(R.id.btnReply);
 
         }
 
@@ -90,6 +99,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText("@"+tweet.user.screenName);
             tvName.setText(tweet.user.name);
             tvTime.setText(tweet.relative_time);
+            btnReply.setTag("@"+tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             if(tweet.tweet_URL!="none") {
                 ivTweet.setVisibility(View.VISIBLE);
@@ -97,5 +107,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             }
         }
+
+
+
     }
 }

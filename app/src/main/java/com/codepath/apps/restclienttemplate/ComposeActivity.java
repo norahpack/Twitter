@@ -36,6 +36,13 @@ public class ComposeActivity extends AppCompatActivity {
         etCompose=findViewById(R.id.etCompose);
         btnTweet=findViewById(R.id.btnTweet);
 
+        Intent oldIntent= getIntent();
+        Bundle b = oldIntent.getExtras();
+        if(b!=null){
+            String replyTo = (String) b.get("replyTo");
+            etCompose.setText(replyTo);
+        }
+
         //set click listener on button
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +67,8 @@ public class ComposeActivity extends AppCompatActivity {
                             Log.i(TAG, "Published tweet says: "+tweet);
                             Intent intent = new Intent();
                             intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                            //sends back data and a code
                             setResult(RESULT_OK, intent);
                             finish();
                         } catch (JSONException e) {

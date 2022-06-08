@@ -5,5 +5,6 @@
     <string name="login_label">Log in</string>
     <string name="intent_scheme">oauth</string>
     <string name="intent_host">codepathtweets</string>
+    <string name="blue_color">"#60BFFA"</string>
 
 </resources>

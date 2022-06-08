@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -124,6 +126,14 @@ public class TimelineActivity extends AppCompatActivity {
             return true; //consumes the menu item
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void replyMethod(View view){
+        Log.i("replyMethod", "replyMethod");
+        Intent intent = new Intent(this, ComposeActivity.class);
+
+        intent.putExtra("replyTo", view.getTag().toString());
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override

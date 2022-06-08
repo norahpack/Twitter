@@ -3,7 +3,10 @@ package com.codepath.apps.restclienttemplate.models;
 import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
+
+import com.codepath.apps.restclienttemplate.ComposeActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
