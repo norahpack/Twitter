@@ -14,13 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.parceler.Parcels;
 
 import java.util.List;
 
-public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
+public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
 
     Context context;
@@ -68,11 +69,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
 
+
     //define a  viewHolder
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private final int REQUEST_CODE=20;
+        //ItemTweetBinding itemTweetBinding;
 
         ImageView ivProfileImage;
         TextView tvBody;
@@ -91,6 +93,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvName=itemView.findViewById(R.id.tvName);
             tvTime=itemView.findViewById(R.id.tvTime);
             btnReply=itemView.findViewById(R.id.btnReply);
+            itemView.setOnClickListener(this);
+            //this.itemTweetBinding=itemView;
 
         }
 
@@ -104,7 +108,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             if(tweet.tweet_URL!="none") {
                 ivTweet.setVisibility(View.VISIBLE);
                 Glide.with(context).load(tweet.tweet_URL).into(ivTweet);
+            } else {
+                ivTweet.setVisibility(View.GONE);
+            }
+        }
 
+        @Override
+        public void onClick(View view){
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION){
+
+                Tweet tweet = tweets.get(position);
+                Intent intent = new Intent(context, SingleTweetActivity.class);
+                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                context.startActivity(intent);
             }
         }
 
