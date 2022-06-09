@@ -94,7 +94,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/btnReply"
+        android:id="@+id/btnLike"
         android:layout_width="50dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"

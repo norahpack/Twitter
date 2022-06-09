@@ -10,11 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.parceler.Parcels;
@@ -92,7 +90,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivTweet=itemView.findViewById(R.id.ivTweet);
             tvName=itemView.findViewById(R.id.tvName);
             tvTime=itemView.findViewById(R.id.tvTime);
-            btnReply=itemView.findViewById(R.id.btnReply);
+            btnReply=itemView.findViewById(R.id.btnLike);
             itemView.setOnClickListener(this);
             //this.itemTweetBinding=itemView;
 

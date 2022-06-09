@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,12 +24,16 @@ import org.parceler.Parcels;
 
 public class SingleTweetActivity extends AppCompatActivity {
 
+
     ImageView ivProfileImage;
     TextView tvBody;
     TextView tvScreenName;
     ImageView ivTweet;
     TextView tvName;
     TextView tvTime;
+    Button btnReply;
+    Button btnRetweet;
+    Button btnLike;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivitySingleTweetBinding binding;
@@ -43,6 +48,9 @@ public class SingleTweetActivity extends AppCompatActivity {
         ivTweet=findViewById(R.id.ivTweet);
         tvName=findViewById(R.id.tvName);
         tvTime=findViewById(R.id.tvTime);
+        btnReply=findViewById(R.id.btnReply);
+        btnLike=findViewById(R.id.btnLike);
+        btnRetweet=findViewById(R.id.btnRetweet);
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         this.bind(tweet);
     }
@@ -52,6 +60,9 @@ public class SingleTweetActivity extends AppCompatActivity {
         tvScreenName.setText("@"+tweet.user.screenName);
         tvName.setText(tweet.user.name);
         tvTime.setText(tweet.relative_time);
+        btnReply.setTag("@"+tweet.user.screenName);
+        btnLike.setTag("@"+tweet.user.screenName);
+        btnRetweet.setTag("@"+tweet.user.screenName);
         Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
         if(tweet.tweet_URL!="none") {
             ivTweet.setVisibility(View.VISIBLE);

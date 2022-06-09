@@ -136,6 +136,61 @@ public class TimelineActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
+    public void likeMethod(View view){
+        client=TwitterApp.getRestClient(this);
+        client.publishTweet("AAA", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess to publish tweet");
+                try {
+                    Tweet tweet = Tweet.fromJson(json.jsonObject);
+                    Log.i(TAG, "Published tweet says: "+tweet);
+                    Intent intent = new Intent();
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                    //sends back data and a code
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to publish tweet", throwable);
+            }
+        });
+
+
+    }
+
+    public void retweetMethod(View view){
+        client=TwitterApp.getRestClient(this);
+
+        client.publishTweet("AAA", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess to publish tweet");
+                try {
+                    Tweet tweet = Tweet.fromJson(json.jsonObject);
+                    Log.i(TAG, "Published tweet says: "+tweet);
+                    Intent intent = new Intent();
+                    intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                    //sends back data and a code
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to publish tweet", throwable);
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){
