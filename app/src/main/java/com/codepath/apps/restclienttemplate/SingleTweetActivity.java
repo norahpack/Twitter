@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.TAG;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -84,6 +86,7 @@ public class SingleTweetActivity extends AppCompatActivity {
             @SuppressLint("LongLogTag")
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
+                btnLike.setBackground(AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart));
                 Log.i(TAG, "onSuccess to like tweet");
             }
             @SuppressLint("LongLogTag")
