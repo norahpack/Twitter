@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class SingleTweetActivity extends AppCompatActivity {
     Button btnRetweet;
     Button btnLike;
     boolean liked = false;
+    boolean retweeted = false;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivitySingleTweetBinding binding;
@@ -73,13 +75,50 @@ public class SingleTweetActivity extends AppCompatActivity {
         tvTime.setText(tweet.relative_time);
         btnReply.setTag("@"+tweet.user.screenName);
         btnLike.setTag(tweet.getTweet_id());
-        btnRetweet.setTag("@"+tweet.user.screenName);
+        btnRetweet.setTag(tweet.getTweet_id());
         Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
         if(tweet.tweet_URL!="none") {
             ivTweet.setVisibility(View.VISIBLE);
             Glide.with(this).load(tweet.tweet_URL).into(ivTweet);
 
         }
+    }
+
+    public void replyMethod(View view){
+        Intent intent = new Intent(this, ComposeActivity.class);
+
+        intent.putExtra("replyTo", view.getTag().toString());
+        startActivity(intent);
+    }
+
+    public void retweetMethod(View view){
+        Drawable newBackground;
+        String message;
+
+        if (retweeted == true){
+            newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet_stroke);
+            retweeted = false;
+            message = "unretweet";
+        } else {
+            newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet);
+            retweeted = true;
+            message="retweet";
+        }
+
+        client=TwitterApp.getRestClient(this);
+        client.retweetTweet(view.getTag().toString(), retweeted, new JsonHttpResponseHandler(){
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                btnRetweet.setBackground(newBackground);
+                Log.i(TAG, "onSuccess to " + message + " tweet");
+            }
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to unretweet/retweet tweet", throwable);
+            }
+        });
     }
 
     public void likeMethod(View view){
@@ -112,4 +151,6 @@ public class SingleTweetActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
