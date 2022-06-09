@@ -1,13 +1,18 @@
 package com.codepath.apps.restclienttemplate;
 
+import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.TAG;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,9 +27,11 @@ import com.codepath.apps.restclienttemplate.databinding.ActivitySingleTweetBindi
 
 import org.parceler.Parcels;
 
+import okhttp3.Headers;
+
 public class SingleTweetActivity extends AppCompatActivity {
 
-
+    TwitterClient client;
     ImageView ivProfileImage;
     TextView tvBody;
     TextView tvScreenName;
@@ -61,7 +68,7 @@ public class SingleTweetActivity extends AppCompatActivity {
         tvName.setText(tweet.user.name);
         tvTime.setText(tweet.relative_time);
         btnReply.setTag("@"+tweet.user.screenName);
-        btnLike.setTag("@"+tweet.user.screenName);
+        btnLike.setTag(tweet.getTweet_id());
         btnRetweet.setTag("@"+tweet.user.screenName);
         Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
         if(tweet.tweet_URL!="none") {
@@ -69,5 +76,21 @@ public class SingleTweetActivity extends AppCompatActivity {
             Glide.with(this).load(tweet.tweet_URL).into(ivTweet);
 
         }
+    }
+
+    public void likeMethod(View view){
+        client=TwitterApp.getRestClient(this);
+        client.likeTweet(view.getTag().toString(), new JsonHttpResponseHandler(){
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess to like tweet");
+            }
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure to like tweet", throwable);
+            }
+        });
     }
 }

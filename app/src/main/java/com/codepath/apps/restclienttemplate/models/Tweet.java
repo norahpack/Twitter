@@ -27,6 +27,7 @@ public class Tweet {
     public User user;
     public String tweet_URL;
     public String relative_time;
+    public String tweet_id;
 
     public Tweet(){}
 
@@ -38,6 +39,7 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
         }
         tweet.createdAt=jsonObject.getString("created_at");
+        tweet.tweet_id=jsonObject.getString("id_str");
         tweet.user=User.fromJson(jsonObject.getJSONObject("user"));
         if(jsonObject.getJSONObject("entities").has("media")){
             Log.d("Tweet", jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url"));
@@ -96,5 +98,29 @@ public class Tweet {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getRelative_time() {
+        return relative_time;
+    }
+
+    public String getTweet_id() {
+        return tweet_id;
+    }
+
+    public String getTweet_URL() {
+        return tweet_URL;
     }
 }

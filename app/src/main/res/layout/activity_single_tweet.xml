@@ -117,7 +117,7 @@
             android:onClick="likeMethod"
             app:layout_constraintEnd_toEndOf="@+id/tvBody"
             app:layout_constraintTop_toBottomOf="@+id/ivTweet"
-            tools:ignore="UnknownId,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,UnknownId" />
 
         <Button
             android:id="@+id/btnRetweet"

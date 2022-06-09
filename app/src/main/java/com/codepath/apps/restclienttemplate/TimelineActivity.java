@@ -138,30 +138,16 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void likeMethod(View view){
         client=TwitterApp.getRestClient(this);
-        client.publishTweet("AAA", new JsonHttpResponseHandler(){
+        client.likeTweet(view.getTag().toString(), new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess to publish tweet");
-                try {
-                    Tweet tweet = Tweet.fromJson(json.jsonObject);
-                    Log.i(TAG, "Published tweet says: "+tweet);
-                    Intent intent = new Intent();
-                    intent.putExtra("tweet", Parcels.wrap(tweet));
-
-                    //sends back data and a code
-                    setResult(RESULT_OK, intent);
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Log.i(TAG, "onSuccess to like tweet");
             }
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure to publish tweet", throwable);
+                Log.e(TAG, "onFailure to like tweet", throwable);
             }
         });
-
-
     }
 
     public void retweetMethod(View view){
