@@ -12,10 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -134,20 +131,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         intent.putExtra("replyTo", view.getTag().toString());
         startActivityForResult(intent, REQUEST_CODE);
-    }
-
-    public void likeMethod(View view){
-        client=TwitterApp.getRestClient(this);
-        client.likeTweet(view.getTag().toString(), new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess to like tweet");
-            }
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure to like tweet", throwable);
-            }
-        });
     }
 
     public void retweetMethod(View view){

@@ -4,6 +4,7 @@ import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +44,7 @@ public class SingleTweetActivity extends AppCompatActivity {
     Button btnReply;
     Button btnRetweet;
     Button btnLike;
+    boolean liked = false;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivitySingleTweetBinding binding;
@@ -81,18 +83,32 @@ public class SingleTweetActivity extends AppCompatActivity {
     }
 
     public void likeMethod(View view){
+        Drawable newBackground;
+        String message;
+
+
+        if (liked == true){
+             newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart_stroke);
+             liked = false;
+             message = "unlike";
+        } else {
+             newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart);
+             liked = true;
+             message="like";
+        }
+
         client=TwitterApp.getRestClient(this);
-        client.likeTweet(view.getTag().toString(), new JsonHttpResponseHandler(){
+        client.likeTweet(view.getTag().toString(), liked, new JsonHttpResponseHandler(){
             @SuppressLint("LongLogTag")
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                btnLike.setBackground(AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart));
-                Log.i(TAG, "onSuccess to like tweet");
+                btnLike.setBackground(newBackground);
+                Log.i(TAG, "onSuccess to " + message + " tweet");
             }
             @SuppressLint("LongLogTag")
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure to like tweet", throwable);
+                Log.e(TAG, "onFailure to like/unlike tweet", throwable);
             }
         });
     }

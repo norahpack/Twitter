@@ -5,7 +5,6 @@ import android.content.Context;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;
-import com.github.scribejava.apis.FlickrApi;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 
@@ -62,11 +61,16 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, "", handler);
 	}
 
-	public void likeTweet(String tweetId, JsonHttpResponseHandler handler){
-		String apiUrl = getApiUrl("favorites/create.json");
+	public void likeTweet(String tweetId, Boolean like, JsonHttpResponseHandler handler){
+		String apiUrl;
+		if (like==true){
+			apiUrl = getApiUrl("favorites/create.json");
+		} else {
+			apiUrl = getApiUrl("favorites/destroy.json");
+		}
+
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
-		System.out.println(apiUrl+"?id="+tweetId);
 		client.post(apiUrl, params, "", handler);
 	}
 
