@@ -31,7 +31,7 @@ The following **optional** features are implemented:
   * [X] User that wrote the original tweet is **automatically "@" replied in compose**
 * [X] User can tap a tweet to **open a detailed tweet view**
   * [X] User can **take favorite (and unfavorite) or retweet** actions on a tweet
-* [ ] User can view more tweets as they scroll with infinite pagination
+* [X] User can view more tweets as they scroll with infinite pagination
 * [ ] Compose tweet functionality is built using modal overlay
 * [X] User can **click a link within a tweet body** on tweet details view. The click will launch the web browser with relevant page opened.
 * [X] Replace all icon drawables and other static image assets with [vector drawables](http://guides.codepath.org/android/Drawables#vector-drawables) where appropriate.
@@ -44,6 +44,7 @@ The following **additional** features are implemented:
 
 * [X] User can unretweet tweets, and buttons change backgrounds depending on whether a user likes/unlikes and retweets/unretweets a tweet
 * [X] Corners on tweets and buttons are rounded 
+* [X] Like and retweet counts on the detailed tweet view update when user (un)likes / (un)retweets the tweet
 
 ## Video Walkthrough
 
