@@ -45,6 +45,7 @@ The following **additional** features are implemented:
 * [X] User can unretweet tweets, and buttons change backgrounds depending on whether a user likes/unlikes and retweets/unretweets a tweet
 * [X] Corners on tweets and buttons are rounded 
 * [X] Like and retweet counts on the detailed tweet view update when user (un)likes / (un)retweets the tweet
+* [X] The app indicates when a user has previously liked or retweeted a tweet
 
 ## Video Walkthrough
 
