@@ -49,6 +49,8 @@ public class SingleTweetActivity extends AppCompatActivity {
     Button btnReply;
     Button btnRetweet;
     Button btnLike;
+    TextView tvLikes;
+    TextView tvRetweets;
     boolean liked = false;
     boolean retweeted = false;
 
@@ -69,6 +71,8 @@ public class SingleTweetActivity extends AppCompatActivity {
         btnReply=findViewById(R.id.btnReply);
         btnLike=findViewById(R.id.btnLike);
         btnRetweet=findViewById(R.id.btnRetweet);
+        tvLikes=findViewById(R.id.tvLikes);
+        tvRetweets=findViewById(R.id.tvRetweets);
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         this.bind(tweet);
         System.out.println(System.currentTimeMillis());
@@ -83,6 +87,8 @@ public class SingleTweetActivity extends AppCompatActivity {
         btnReply.setTag("@"+tweet.user.screenName);
         btnLike.setTag(tweet.getTweet_id());
         btnRetweet.setTag(tweet.getTweet_id());
+        tvLikes.setText(tweet.favorite_count);
+        tvRetweets.setText(tweet.retweet_count);
         Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
         if(tweet.tweet_URL!="none") {
             ivTweet.setVisibility(View.VISIBLE);
@@ -118,6 +124,7 @@ public class SingleTweetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 btnRetweet.setBackground(newBackground);
+
                 Log.i(TAG, "onSuccess to " + message + " tweet");
             }
             @SuppressLint("LongLogTag")
@@ -149,6 +156,7 @@ public class SingleTweetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 btnLike.setBackground(newBackground);
+                //tvLikes.setText(IntegertvLikes.getText().);
                 Log.i(TAG, "onSuccess to " + message + " tweet");
             }
             @SuppressLint("LongLogTag")
