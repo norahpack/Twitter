@@ -75,8 +75,6 @@ public class SingleTweetActivity extends AppCompatActivity {
         tvRetweets=findViewById(R.id.tvRetweets);
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         this.bind(tweet);
-        System.out.println(System.currentTimeMillis());
-
     }
 
     public void bind(Tweet tweet) {
@@ -108,14 +106,18 @@ public class SingleTweetActivity extends AppCompatActivity {
         Drawable newBackground;
         String message;
 
+        int change_retweets;
+
         if (retweeted == true){
             newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet_stroke);
             retweeted = false;
             message = "unretweet";
+            change_retweets=-1;
         } else {
             newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet);
             retweeted = true;
             message="retweet";
+            change_retweets=1;
         }
 
         client=TwitterApp.getRestClient(this);
@@ -124,7 +126,7 @@ public class SingleTweetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 btnRetweet.setBackground(newBackground);
-
+                tvRetweets.setText((String.valueOf((Integer.valueOf((String) tvRetweets.getText()))+change_retweets)));
                 Log.i(TAG, "onSuccess to " + message + " tweet");
             }
             @SuppressLint("LongLogTag")
@@ -138,16 +140,19 @@ public class SingleTweetActivity extends AppCompatActivity {
     public void likeMethod(View view){
         Drawable newBackground;
         String message;
+        int change_likes;
 
 
         if (liked == true){
              newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart_stroke);
              liked = false;
              message = "unlike";
+             change_likes=-1;
         } else {
              newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart);
              liked = true;
              message="like";
+             change_likes=1;
         }
 
         client=TwitterApp.getRestClient(this);
@@ -156,7 +161,8 @@ public class SingleTweetActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 btnLike.setBackground(newBackground);
-                //tvLikes.setText(IntegertvLikes.getText().);
+                System.out.println((String)tvLikes.getText());
+                tvLikes.setText((String.valueOf((Integer.valueOf((String) tvLikes.getText()))+change_likes)));
                 Log.i(TAG, "onSuccess to " + message + " tweet");
             }
             @SuppressLint("LongLogTag")

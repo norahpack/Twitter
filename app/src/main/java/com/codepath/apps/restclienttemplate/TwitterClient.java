@@ -43,13 +43,16 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
-	public void getHomeTimeline(JsonHttpResponseHandler handler) {
+	public void getHomeTimeline(String maxId, JsonHttpResponseHandler handler) {
 		RequestParams params = new RequestParams();
 		params.put("tweet_mode", "extended");
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		params.put("count", 25);
 		params.put("since_id", 1);
+		if(maxId!=null){
+			params.put("max_id", maxId);
+		}
 		client.get(apiUrl, params, handler);
 	}
 
@@ -63,7 +66,7 @@ public class TwitterClient extends OAuthBaseClient {
 
 	public void likeTweet(String tweetId, Boolean like, JsonHttpResponseHandler handler){
 		String apiUrl;
-		if (like==true){
+		if (like){
 			apiUrl = getApiUrl("favorites/create.json");
 		} else {
 			apiUrl = getApiUrl("favorites/destroy.json");
@@ -77,13 +80,12 @@ public class TwitterClient extends OAuthBaseClient {
 	public void retweetTweet(String tweetId, Boolean retweet, JsonHttpResponseHandler handler){
 		String apiUrl;
 		String finalUrl;
-		if (retweet==true){
+		if (retweet){
 			apiUrl = getApiUrl("statuses/retweet/");
 		} else {
 			apiUrl = getApiUrl("statuses/unretweet/");
 		}
 		finalUrl=apiUrl.concat(tweetId+".json");
-		System.out.println(finalUrl);
 		client.post(finalUrl, handler);
 
 	}
