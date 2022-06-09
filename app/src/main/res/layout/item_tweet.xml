@@ -10,6 +10,7 @@
     android:layout_marginEnd="10dp"
     android:background="@drawable/slight_rounded_corner"
     android:backgroundTint="#FFFFFF"
+    android:descendantFocusability="blocksDescendants"
     android:minHeight="65dp">
 
     <ImageView
@@ -32,6 +33,7 @@
         android:layout_marginEnd="5dp"
         android:maxLines="1"
         android:text="TextView"
+        android:descendantFocusability="blocksDescendants"
         app:layout_constraintBottom_toTopOf="@+id/tvBody"
         app:layout_constraintEnd_toStartOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
@@ -67,7 +69,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="sampleUser" />
 
-    <TextView
+    <com.codepath.apps.restclienttemplate.LinkifiedTextView
         android:id="@+id/tvBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
