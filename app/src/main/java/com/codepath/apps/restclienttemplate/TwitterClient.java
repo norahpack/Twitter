@@ -87,7 +87,6 @@ public class TwitterClient extends OAuthBaseClient {
 		}
 		finalUrl=apiUrl.concat(tweetId+".json");
 		client.post(finalUrl, handler);
-
 	}
 
 

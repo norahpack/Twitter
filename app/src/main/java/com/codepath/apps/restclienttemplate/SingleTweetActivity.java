@@ -53,6 +53,8 @@ public class SingleTweetActivity extends AppCompatActivity {
     TextView tvRetweets;
     boolean liked = false;
     boolean retweeted = false;
+    Drawable likeBackground;
+    Drawable retweetBackground;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivitySingleTweetBinding binding;
@@ -73,6 +75,8 @@ public class SingleTweetActivity extends AppCompatActivity {
         btnRetweet=findViewById(R.id.btnRetweet);
         tvLikes=findViewById(R.id.tvLikes);
         tvRetweets=findViewById(R.id.tvRetweets);
+
+
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         this.bind(tweet);
     }
@@ -87,6 +91,24 @@ public class SingleTweetActivity extends AppCompatActivity {
         btnRetweet.setTag(tweet.getTweet_id());
         tvLikes.setText(tweet.favorite_count);
         tvRetweets.setText(tweet.retweet_count);
+        liked=tweet.is_favorited;
+        retweeted=tweet.is_retweeted;
+
+        //sets like and retweet button to desired initial state
+        if(liked) {
+            likeBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart);
+        } else {
+            likeBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart_stroke);
+        }
+
+        if(retweeted){
+            retweetBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet);
+        } else {
+            retweetBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet_stroke);
+        }
+        btnLike.setBackground(likeBackground);
+        btnRetweet.setBackground(retweetBackground);
+
         Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
         if(tweet.tweet_URL!="none") {
             ivTweet.setVisibility(View.VISIBLE);
@@ -108,7 +130,7 @@ public class SingleTweetActivity extends AppCompatActivity {
 
         int change_retweets;
 
-        if (retweeted == true){
+        if (retweeted){
             newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_retweet_stroke);
             retweeted = false;
             message = "unretweet";
@@ -142,8 +164,7 @@ public class SingleTweetActivity extends AppCompatActivity {
         String message;
         int change_likes;
 
-
-        if (liked == true){
+        if (liked){
              newBackground = AppCompatResources.getDrawable(SingleTweetActivity.this, R.drawable.ic_vector_heart_stroke);
              liked = false;
              message = "unlike";
