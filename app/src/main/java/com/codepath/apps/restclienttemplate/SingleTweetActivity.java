@@ -31,6 +31,10 @@ import com.codepath.apps.restclienttemplate.databinding.ActivitySingleTweetBindi
 
 import org.parceler.Parcels;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import okhttp3.Headers;
 
 public class SingleTweetActivity extends AppCompatActivity {
@@ -53,6 +57,7 @@ public class SingleTweetActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        long oldTime;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_tweet);
         ivProfileImage = findViewById(R.id.ivProfileImage);
@@ -66,6 +71,8 @@ public class SingleTweetActivity extends AppCompatActivity {
         btnRetweet=findViewById(R.id.btnRetweet);
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         this.bind(tweet);
+        System.out.println(System.currentTimeMillis());
+
     }
 
     public void bind(Tweet tweet) {
