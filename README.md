@@ -52,6 +52,8 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+Gif does not show composing a tweet or a reply to a tweet showing up in a timeline due to a Rate Limit Exceeded error encountered during the recording.
+
 <img src='twitter3gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [Kap](https://getkap.co/).
