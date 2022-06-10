@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +17,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetDao;
+import com.codepath.apps.restclienttemplate.models.TweetWithUser;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -39,12 +43,15 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     Button btnLogOut;
+    TweetDao tweetDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         client = TwitterApp.getRestClient(this);
+        tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
+
 
         //find the recycler view
         rvTweets=findViewById(R.id.rvTweets);
@@ -59,7 +66,6 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(llm);
         rvTweets.setAdapter(adapter);
 
-        populateHomeTimeline(null);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -91,6 +97,22 @@ public class TimelineActivity extends AppCompatActivity {
         };
         rvTweets.addOnScrollListener(scrollListener);
 
+        //Query for existing tweets in the DB
+        AsyncTask.execute(new Runnable(){
+            @Override
+            public void run(){
+                System.out.println("running async task");
+                ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+                pb.setVisibility(ProgressBar.VISIBLE);
+                Log.i(TAG, "Showing data from database");
+                List<TweetWithUser> tweetWithUsers = tweetDao.recentItems();
+                List<Tweet> tweetsFromDB = TweetWithUser.getTweetList(tweetWithUsers);
+                adapter.clear();
+                adapter.addAll(tweetsFromDB);
+                pb.setVisibility(ProgressBar.INVISIBLE);
+            }
+        });
+        populateHomeTimeline(null);
     }
 
     @Override
@@ -166,6 +188,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void populateHomeTimeline(String maxId) {
+        System.out.println("running populate");
         ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
@@ -174,9 +197,22 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess!"+json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                    List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
+                    tweets.addAll(tweetsFromNetwork);
                     adapter.notifyDataSetChanged();
                     swipeContainer.setRefreshing(false); //hides the spinning indicator
+                    AsyncTask.execute(new Runnable(){
+                        @Override
+                        public void run(){
+                            Log.i(TAG, "Saving data into the database");
+                            // insert users first
+                            List<User> usersFromNetwork = User.fromJsonTweetArray(tweetsFromNetwork);
+                            tweetDao.insertModel(usersFromNetwork.toArray(new User[0]));
+
+                            // insert tweets next
+                            tweetDao.insertModel(tweetsFromNetwork.toArray(new Tweet[0]));
+                        }
+                    });
                     pb.setVisibility(ProgressBar.INVISIBLE);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
@@ -186,6 +222,7 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.e(TAG, "onFailure!" + response, throwable);
+                pb.setVisibility(ProgressBar.INVISIBLE);
             }
         });
     }

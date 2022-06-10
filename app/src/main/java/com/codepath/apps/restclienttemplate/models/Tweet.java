@@ -4,7 +4,14 @@ import static com.facebook.stetho.inspector.network.ResponseHandlingInputStream.
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.util.Log;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import com.codepath.apps.restclienttemplate.ComposeActivity;
 
@@ -20,17 +27,44 @@ import java.util.List;
 import java.util.Locale;
 
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity= User.class, parentColumns="id", childColumns="user_id"))
 public class Tweet {
 
+    @PrimaryKey
+    @ColumnInfo
+    public long id;
+
+    @ColumnInfo
     public String body;
+
+    @ColumnInfo
     public String createdAt;
+
+    @Ignore
     public User user;
+
+    @ColumnInfo
     public String tweet_URL;
+
+    @ColumnInfo
     public String relative_time;
+
+    @ColumnInfo
+    public long user_id;
+
+    @ColumnInfo
     public String tweet_id;
+
+    @ColumnInfo
     public String retweet_count;
+
+    @ColumnInfo
     public String favorite_count;
+
+    @ColumnInfo
     public boolean is_favorited;
+
+    @ColumnInfo
     public boolean is_retweeted;
 
     public Tweet(){}
@@ -48,7 +82,10 @@ public class Tweet {
         tweet.is_favorited=jsonObject.getBoolean("favorited");
         tweet.is_retweeted=jsonObject.getBoolean("retweeted");
         tweet.tweet_id=jsonObject.getString("id_str");
-        tweet.user=User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.id=jsonObject.getLong("id");
+        User user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.user=user;
+        tweet.user_id=user.id;
         if(jsonObject.getJSONObject("entities").has("media")){
             Log.d("Tweet", jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url"));
             tweet.tweet_URL=jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url");
