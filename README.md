@@ -2,7 +2,7 @@
 
 **Twitter App** is an android app that allows a user to view their Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **22** hours spent in total
+Time spent: **24** hours spent in total
 
 
 ## User Stories
@@ -38,7 +38,7 @@ The following **optional** features are implemented:
 * [X] User can view following / followers list through any profile they view.
 * [ ] Use the View Binding library to reduce view boilerplate.
 * [ ] On the Twitter timeline, apply scrolling effects such as [hiding/showing the toolbar](http://guides.codepath.org/android/Using-the-App-ToolBar#reacting-to-scroll) by implementing [CoordinatorLayout](http://guides.codepath.org/android/Handling-Scrolls-with-CoordinatorLayout#responding-to-scroll-events).
-* [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
+* [X] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
 
 The following **additional** features are implemented:
 
@@ -52,7 +52,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='twitter8gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='twitter10gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [Kap](https://getkap.co/).
 
@@ -60,7 +60,7 @@ GIF created with [Kap](https://getkap.co/).
 
 Describe any challenges encountered while building the app.
 
-My main difficulties this project dealt with views in .xml files - I spent some time familiarizing myself with the different types of layouts. I also had difficulty with figuring out how to tell how to whether a click on the like button should like or unlike a tweet. I had to think about the logic behind this choice and what variables I needed to initialize and update to determine this. 
+My main difficulties this project dealt with views in .xml files - I spent some time familiarizing myself with the different types of layouts. I also had difficulty with figuring out how to tell how to whether a click on the like button should like or unlike a tweet. I had to think about the logic behind this choice and what variables I needed to initialize and update to determine this. Finally, I faced a challenge with the loading gif playing infinitely in airplane mode (when a full timeline could not be fetched). To fix this issue, I used the skills I gained from the debugging lab to walk through the code as it was running to see where I could fix this issue.
 
 ## Open-source libraries used
 
