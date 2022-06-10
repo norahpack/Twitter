@@ -56,13 +56,11 @@ public class SingleTweetActivity extends AppCompatActivity {
     boolean retweeted = false;
     Drawable likeBackground;
     Drawable retweetBackground;
-
     private AppBarConfiguration appBarConfiguration;
     private ActivitySingleTweetBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        long oldTime;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_tweet);
         ivProfileImage = findViewById(R.id.ivProfileImage);
@@ -115,13 +113,13 @@ public class SingleTweetActivity extends AppCompatActivity {
         if(tweet.tweet_URL!="none") {
             ivTweet.setVisibility(View.VISIBLE);
             Glide.with(this).load(tweet.tweet_URL).into(ivTweet);
-
+        } else {
+            ivTweet.setVisibility(View.GONE);
         }
     }
 
     public void replyMethod(View view){
         Intent intent = new Intent(this, ComposeActivity.class);
-
         intent.putExtra("replyTo", view.getTag().toString());
         startActivity(intent);
     }
@@ -135,7 +133,6 @@ public class SingleTweetActivity extends AppCompatActivity {
     public void retweetMethod(View view){
         Drawable newBackground;
         String message;
-
         int change_retweets;
 
         if (retweeted){
@@ -152,17 +149,13 @@ public class SingleTweetActivity extends AppCompatActivity {
 
         client=TwitterApp.getRestClient(this);
         client.retweetTweet(view.getTag().toString(), retweeted, new JsonHttpResponseHandler(){
-            @SuppressLint("LongLogTag")
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 btnRetweet.setBackground(newBackground);
                 tvRetweets.setText((String.valueOf((Integer.valueOf((String) tvRetweets.getText()))+change_retweets)));
-                Log.i(TAG, "onSuccess to " + message + " tweet");
             }
-            @SuppressLint("LongLogTag")
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure to unretweet/retweet tweet", throwable);
             }
         });
     }
@@ -186,21 +179,15 @@ public class SingleTweetActivity extends AppCompatActivity {
 
         client=TwitterApp.getRestClient(this);
         client.likeTweet(view.getTag().toString(), liked, new JsonHttpResponseHandler(){
-            @SuppressLint("LongLogTag")
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 btnLike.setBackground(newBackground);
                 System.out.println((String)tvLikes.getText());
                 tvLikes.setText((String.valueOf((Integer.valueOf((String) tvLikes.getText()))+change_likes)));
-                Log.i(TAG, "onSuccess to " + message + " tweet");
             }
-            @SuppressLint("LongLogTag")
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure to like/unlike tweet", throwable);
             }
         });
     }
-
-
 }

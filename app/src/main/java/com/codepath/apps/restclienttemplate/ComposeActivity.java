@@ -30,12 +30,9 @@ public class ComposeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
-
         client=TwitterApp.getRestClient(this);
-
         etCompose=findViewById(R.id.etCompose);
         btnTweet=findViewById(R.id.btnTweet);
-
         Intent oldIntent= getIntent();
         Bundle b = oldIntent.getExtras();
         if(b!=null){
@@ -61,10 +58,8 @@ public class ComposeActivity extends AppCompatActivity {
                 client.publishTweet(tweetContent, new JsonHttpResponseHandler(){
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
-                        Log.i(TAG, "onSuccess to publish tweet");
                         try {
                             Tweet tweet = Tweet.fromJson(json.jsonObject);
-                            Log.i(TAG, "Published tweet says: "+tweet);
                             Intent intent = new Intent();
                             intent.putExtra("tweet", Parcels.wrap(tweet));
 
@@ -76,9 +71,7 @@ public class ComposeActivity extends AppCompatActivity {
                         }
                     }
                     @Override
-                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                        Log.e(TAG, "onFailure to publish tweet", throwable);
-                    }
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {}
                 });
             }
         });

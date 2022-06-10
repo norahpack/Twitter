@@ -20,7 +20,6 @@ public class LinkifiedTextView extends androidx.appcompat.widget.AppCompatTextVi
         Object text = widget.getText();
         if (text instanceof Spanned) {
             Spannable buffer = (Spannable) text;
-
             int action = event.getAction();
 
             if (action == MotionEvent.ACTION_UP
@@ -52,9 +51,7 @@ public class LinkifiedTextView extends androidx.appcompat.widget.AppCompatTextVi
                     return true;
                 }
             }
-
         }
-
         return false;
     }
 }

@@ -39,8 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
     List<User> followingList;
     List<User> followersList;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         client = TwitterApp.getRestClient(this);
@@ -69,7 +67,6 @@ public class ProfileActivity extends AppCompatActivity {
         rvFollowers.setAdapter(followersAdapter);
         populateFollowing(user);
         populateFollowers(user);
-
     }
 
     public void bind(User user){
@@ -87,18 +84,15 @@ public class ProfileActivity extends AppCompatActivity {
                     JSONArray jsonArray = jsonObject.getJSONArray("users");
                     for(int i =0; i<jsonArray.length(); i++){
                         followingList.add(User.fromJson(jsonArray.getJSONObject(i)));
-                        Log.i("adding", "adding:");
                     }
                     followingAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
-                    Log.i("bad", "bad:");
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.i("worse", "worse:");
             }
         });
     }
@@ -122,9 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-
             }
         });
     }
-
 }

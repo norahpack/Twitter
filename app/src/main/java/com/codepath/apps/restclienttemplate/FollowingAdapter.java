@@ -8,24 +8,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
-
 import org.parceler.Parcels;
-
 import java.util.List;
 
 public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.ViewHolder> {
 
     Context context;
     List<User> users;
-
-
 
     //pass in the context and list of tweets
     public FollowingAdapter(Context context, List<User> users){
@@ -41,12 +35,10 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
     }
 
     //bind values based on the position of the element
-
     @Override
     public void onBindViewHolder(@NonNull FollowingAdapter.ViewHolder holder, int position) {
         //get the data at position
         User user = users.get(position);
-
         //bind the tweet with the viewholder
         holder.bind(user);
     }
@@ -57,15 +49,10 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
     }
 
     //define a  viewHolder
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        //ItemTweetBinding itemTweetBinding;
-
         ImageView ivProfileImage;
         TextView tvScreenName;
         TextView tvName;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,8 +60,6 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvName = itemView.findViewById(R.id.tvName);
             itemView.setOnClickListener(this);
-            //this.itemTweetBinding=itemView;
-
         }
 
         public void bind(User user) {

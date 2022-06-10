@@ -52,7 +52,6 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this);
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
 
-
         //find the recycler view
         rvTweets=findViewById(R.id.rvTweets);
         btnLogOut=findViewById(R.id.btnLogOut);
@@ -66,15 +65,11 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(llm);
         rvTweets.setAdapter(adapter);
 
-
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
                 tweets.clear();
                 populateHomeTimeline(null);
             }
@@ -89,7 +84,6 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
                 Tweet lastTweetBeingDisplayed = tweets.get(tweets.size()-1);
                 String maxId = lastTweetBeingDisplayed.tweet_id;
                 populateHomeTimeline(maxId);
@@ -101,10 +95,8 @@ public class TimelineActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable(){
             @Override
             public void run(){
-                System.out.println("running async task");
                 ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
                 pb.setVisibility(ProgressBar.VISIBLE);
-                Log.i(TAG, "Showing data from database");
                 List<TweetWithUser> tweetWithUsers = tweetDao.recentItems();
                 List<Tweet> tweetsFromDB = TweetWithUser.getTweetList(tweetWithUsers);
                 adapter.clear();
@@ -125,7 +117,6 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.itemCompose){
-            //compose icon has been selected
             //navigate to the compose activity
             Intent intent = new Intent(this, ComposeActivity.class);
             startActivityForResult(intent, REQUEST_CODE); //gives us back a tweet
@@ -135,9 +126,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void replyMethod(View view){
-        Log.i("replyMethod", "replyMethod");
         Intent intent = new Intent(this, ComposeActivity.class);
-
         intent.putExtra("replyTo", view.getTag().toString());
         startActivityForResult(intent, REQUEST_CODE);
     }
@@ -145,16 +134,13 @@ public class TimelineActivity extends AppCompatActivity {
     public void retweetMethod(View view){
         client=TwitterApp.getRestClient(this);
 
-        client.publishTweet("AAA", new JsonHttpResponseHandler(){
+        client.publishTweet("status", new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess to publish tweet");
                 try {
                     Tweet tweet = Tweet.fromJson(json.jsonObject);
-                    Log.i(TAG, "Published tweet says: "+tweet);
                     Intent intent = new Intent();
                     intent.putExtra("tweet", Parcels.wrap(tweet));
-
                     //sends back data and a code
                     setResult(RESULT_OK, intent);
                     finish();
@@ -164,7 +150,6 @@ public class TimelineActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure to publish tweet", throwable);
             }
         });
     }
@@ -174,10 +159,7 @@ public class TimelineActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             // Get data from the intent (tweet)
             Tweet tweet= Parcels.unwrap(data.getParcelableExtra("tweet"));
-
             //update recyclerview with new tweet
-
-            //modify data source of tweets
             tweets.add(0, tweet);
             //update the adapter.
             adapter.notifyItemInserted(0);
@@ -188,13 +170,11 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void populateHomeTimeline(String maxId) {
-        System.out.println("running populate");
         ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
         pb.setVisibility(ProgressBar.VISIBLE);
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess!"+json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
@@ -204,24 +184,18 @@ public class TimelineActivity extends AppCompatActivity {
                     AsyncTask.execute(new Runnable(){
                         @Override
                         public void run(){
-                            Log.i(TAG, "Saving data into the database");
                             // insert users first
                             List<User> usersFromNetwork = User.fromJsonTweetArray(tweetsFromNetwork);
                             tweetDao.insertModel(usersFromNetwork.toArray(new User[0]));
-
                             // insert tweets next
                             tweetDao.insertModel(tweetsFromNetwork.toArray(new Tweet[0]));
                         }
                     });
                     pb.setVisibility(ProgressBar.INVISIBLE);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Json exception", e);
-                }
+                } catch (JSONException e) {}
             }
-
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure!" + response, throwable);
                 pb.setVisibility(ProgressBar.INVISIBLE);
             }
         });
@@ -229,14 +203,11 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onLogoutButton(View view){
         //forget who's logged in
-        //finish();
         TwitterApp.getRestClient(this).clearAccessToken();
-
         //navigate backwards to the login screen
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //makes sure back button won't work
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //same as above
         startActivity(i);
     }
-
 }

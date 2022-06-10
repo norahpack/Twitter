@@ -8,19 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
-
 import org.parceler.Parcels;
-
 import java.util.List;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
-
 
     Context context;
     List<Tweet> tweets;
@@ -30,8 +25,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         this.context=context;
         this.tweets=tweets;
     }
-
-    //for each row, inflate a the layout
 
     public void clear(){
         tweets.clear();
@@ -51,12 +44,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
     //bind values based on the position of the element
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //get the data at position
         Tweet tweet = tweets.get(position);
-
         //bind the tweet with the viewholder
         holder.bind(tweet);
     }
@@ -66,13 +57,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
-
-
     //define a  viewHolder
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        //ItemTweetBinding itemTweetBinding;
 
         ImageView ivProfileImage;
         TextView tvBody;
@@ -92,8 +78,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvTime=itemView.findViewById(R.id.tvTime);
             btnReply=itemView.findViewById(R.id.btnLike);
             itemView.setOnClickListener(this);
-            //this.itemTweetBinding=itemView;
-
         }
 
         public void bind(Tweet tweet) {
@@ -115,15 +99,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public void onClick(View view){
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION){
-
                 Tweet tweet = tweets.get(position);
                 Intent intent = new Intent(context, SingleTweetActivity.class);
                 intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                 context.startActivity(intent);
             }
         }
-
-
-
     }
 }

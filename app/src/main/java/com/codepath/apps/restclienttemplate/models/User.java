@@ -31,8 +31,6 @@ public class User {
 
     @ColumnInfo
     public String userId;
-    //public String profileBannerUrl;
-    //public boolean hasBanner;
 
     public User(){}
 
@@ -40,9 +38,7 @@ public class User {
         User user = new User();
         user.name=jsonObject.getString("name");
         user.screenName=jsonObject.getString("screen_name");
-
         user.profileImageUrl=jsonObject.getString("profile_image_url_https");
-
         user.id=jsonObject.getLong("id");
         user.userId=jsonObject.getString("id_str");
         return user;
