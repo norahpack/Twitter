@@ -130,7 +130,6 @@ public class SingleTweetActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("user", Parcels.wrap(view.getTag()));
         startActivity(intent);
-
     }
 
     public void retweetMethod(View view){

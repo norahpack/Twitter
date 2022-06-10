@@ -4,12 +4,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.util.List;
+
 @Parcel
 public class User {
 
     public String name;
     public String screenName;
     public String profileImageUrl;
+    public List<User> followingList;
+    public String userId;
+    //public String profileBannerUrl;
+    //public boolean hasBanner;
 
     public User(){}
 
@@ -17,7 +23,10 @@ public class User {
         User user = new User();
         user.name=jsonObject.getString("name");
         user.screenName=jsonObject.getString("screen_name");
+
         user.profileImageUrl=jsonObject.getString("profile_image_url_https");
+
+        user.userId=jsonObject.getString("id_str");
         return user;
     }
 }
