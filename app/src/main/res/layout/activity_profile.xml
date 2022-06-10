@@ -17,23 +17,23 @@
         android:maxLines="1"
         android:text="TextView"
         android:textColor="@android:color/black"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
 
-        app:layout_constraintTop_toBottomOf="@+id/ivBanner"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
         tools:text="sampleUser" />
 
     <TextView
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
         android:maxLines="1"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivBanner"
         tools:text="sampleUser" />
 
@@ -42,41 +42,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
         android:maxLines="1"
         android:text="Following"
         android:textColor="@android:color/black"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/rvFollowing"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
         tools:text="Following" />
 
     <TextView
         android:id="@+id/tvFollowers"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:maxLines="1"
         android:text="Followers"
         android:textAlignment="viewEnd"
         android:textColor="@android:color/black"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/rvFollowers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:text="Followers" />
 
     <ImageView
         android:id="@+id/ivBanner"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@android:color/white"
-        android:backgroundTint="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/background"
+        android:cropToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_twitter_round"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
@@ -109,6 +107,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
         android:background="#60BFFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
