@@ -2,7 +2,7 @@
 
 **Twitter App** is an android app that allows a user to view their Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **20** hours spent in total
+Time spent: **22** hours spent in total
 
 
 ## User Stories
@@ -52,9 +52,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-Gif does not show composing a tweet or a reply to a tweet showing up in a timeline due to a Rate Limit Exceeded error encountered during the recording.
-
-<img src='twitter3gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='twitter6gif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [Kap](https://getkap.co/).
 
