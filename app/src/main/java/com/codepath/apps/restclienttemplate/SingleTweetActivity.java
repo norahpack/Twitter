@@ -49,6 +49,7 @@ public class SingleTweetActivity extends AppCompatActivity {
     Button btnReply;
     Button btnRetweet;
     Button btnLike;
+    Button btnProfile;
     TextView tvLikes;
     TextView tvRetweets;
     boolean liked = false;
@@ -73,10 +74,9 @@ public class SingleTweetActivity extends AppCompatActivity {
         btnReply=findViewById(R.id.btnReply);
         btnLike=findViewById(R.id.btnLike);
         btnRetweet=findViewById(R.id.btnRetweet);
+        btnProfile=findViewById(R.id.btnProfile);
         tvLikes=findViewById(R.id.tvLikes);
         tvRetweets=findViewById(R.id.tvRetweets);
-
-
         Tweet tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         this.bind(tweet);
     }
@@ -93,6 +93,8 @@ public class SingleTweetActivity extends AppCompatActivity {
         tvRetweets.setText(tweet.retweet_count);
         liked=tweet.is_favorited;
         retweeted=tweet.is_retweeted;
+        btnProfile.setText("View @"+tweet.user.screenName+"'s Profile");
+        btnProfile.setTag(tweet.user);
 
         //sets like and retweet button to desired initial state
         if(liked) {
@@ -122,6 +124,13 @@ public class SingleTweetActivity extends AppCompatActivity {
 
         intent.putExtra("replyTo", view.getTag().toString());
         startActivity(intent);
+    }
+
+    public void profileMethod(View view){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("user", Parcels.wrap(view.getTag()));
+        startActivity(intent);
+
     }
 
     public void retweetMethod(View view){

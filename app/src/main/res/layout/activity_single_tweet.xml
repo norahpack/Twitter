@@ -110,7 +110,7 @@
 
         <Button
             android:id="@+id/btnLike"
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="20dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
@@ -123,7 +123,7 @@
 
         <Button
             android:id="@+id/btnRetweet"
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="20dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="20dp"
@@ -177,6 +177,23 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnProfile"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:autoText="false"
+        android:background="@drawable/slight_rounded_corner"
+        android:backgroundTint="#FFFFFF"
+        android:onClick="profileMethod"
+        android:text="reply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/innerConstraint"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ImageView
         android:id="@+id/ivLogo"
